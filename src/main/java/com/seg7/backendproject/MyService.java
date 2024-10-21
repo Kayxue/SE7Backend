@@ -1,5 +1,6 @@
 package com.seg7.backendproject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.seg7.backendproject.Accounts;
 import com.seg7.backendproject.AccountRequest;

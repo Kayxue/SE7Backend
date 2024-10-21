@@ -14,6 +14,8 @@ import java.net.URI;
 
 @RestController
 public class RootController {
+	@Autowired
+	private AccountRepository accountRepository;
 
     @Autowired
 	private MyService myService;
