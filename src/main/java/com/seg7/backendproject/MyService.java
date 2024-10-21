@@ -12,6 +12,7 @@ public class MyService {
 		Accounts accounts = new Accounts();
 		accounts.setRemark(request.getRemark());
 		accounts.setCategory(request.getCategory());
+		accounts.setTime(request.getTime());
 		accounts.setAttach(request.getAttach());
 		accounts.setPrice(request.getPrice());
 
