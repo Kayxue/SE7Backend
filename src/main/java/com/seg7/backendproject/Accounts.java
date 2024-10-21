@@ -1,4 +1,4 @@
-package ntou.cs.project.Common;
+package com.seg7.backendproject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
