@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.validation.Valid;
 import java.net.URI;
+import java.io.IOException;
 
 @RestController
 public class RootController {
@@ -25,16 +27,28 @@ public class RootController {
         return "Hello World";
     }
 
-    @PostMapping
-	public ResponseEntity<Accounts> createProduct(@Valid @RequestBody AccountRequest request) {
-		Accounts accounts = myService.createProduct(request);
+    @PostMapping(consumes = "multipart/form-data")
+	public ResponseEntity<Account> createProduct(
+			@RequestParam("data") String data,
+			@RequestParam("attach") MultipartFile attach) throws IOException {
 
+		ObjectMapper objectMapper = new ObjectMapper();
+		AccountRequest request;
+		try {
+			request = objectMapper.readValue(data, AccountRequest.class);
+		} catch (IOException e) {
+			return ResponseEntity.badRequest().build();
+		}
+		if (!attach.isEmpty()) {
+			String fileName = attach.getOriginalFilename();
+			System.out.println("附件：" + fileName);
+		}
+
+		Account accounts = myService.createAccount(request);
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(accounts.getID())
 				.toUri();
-
 		return ResponseEntity.created(location).body(accounts);
-	}
 }
