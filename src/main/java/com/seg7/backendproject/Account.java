@@ -14,5 +14,4 @@ public class Account {
     public String remark; // 備註
     public String attach; // 附件
     public int price;
-
 }
