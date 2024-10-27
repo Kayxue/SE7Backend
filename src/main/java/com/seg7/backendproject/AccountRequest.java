@@ -1,4 +1,4 @@
-package ntou.cs.project.Deal;
+package com.seg7.backendproject;
 
 import javax.validation.constraints.NotNull;
 

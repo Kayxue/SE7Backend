@@ -1,7 +1,6 @@
 package com.seg7.backendproject;
 
 import com.seg7.backendproject.MyService;
-import com.seg7.backendproject.Accounts;
 import com.seg7.backendproject.AccountRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
