@@ -8,13 +8,18 @@ import com.seg7.backendproject.AccountRequest;
 @Service
 public class MyService {
 
-	public Accounts createProduct(AccountRequest request) {
-		Accounts accounts = new Accounts();
+	@Autowired
+	private AccountRepository repository;
+
+	public Account createAccount(AccountRequest request, String filePath) {
+		Account accounts = new Account();
 		accounts.setRemark(request.getRemark());
-		accounts.setCategory(request.getCategory());
 		accounts.setTime(request.getTime());
-		accounts.setAttach(request.getAttach());
+		accounts.setCategory(request.getCategory());
+		accounts.setAttach(filePath);
 		accounts.setPrice(request.getPrice());
+
+		// 加入資料庫
 
 		return accounts;
 	}
