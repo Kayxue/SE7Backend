@@ -12,24 +12,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.nio.file.*;
+import java.util.UUID;
 
 @RestController
-public class RootController {
+@RequestMapping(value = "/Account")
+public class AccountsController {
+
 	@Autowired
-	private AccountRepository accountRepository;
-
-    @Autowired
 	private MyService myService;
-    
-    @GetMapping("/")
-    public String root() {
-        return "Hello World";
-    }
 
-    @PostMapping(consumes = "multipart/form-data")
-	public ResponseEntity<Account> createProduct(
+	@PostMapping(value = "/addAccount", consumes = "multipart/form-data") // 新增帳目
+	public ResponseEntity<Account> createAccount(
 			@RequestParam("data") String data,
-			@RequestParam("attach") MultipartFile attach) throws IOException {
+			@RequestParam(value = "attach", required = false) MultipartFile attach) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		AccountRequest request;
@@ -38,16 +35,25 @@ public class RootController {
 		} catch (IOException e) {
 			return ResponseEntity.badRequest().build();
 		}
-		if (!attach.isEmpty()) {
-			String fileName = attach.getOriginalFilename();
-			System.out.println("附件：" + fileName);
+		String filePath = null;
+		if (attach != null && !attach.isEmpty()) {
+			String uploadDir = "upload";
+			Path uploadPath = Paths.get(uploadDir);
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+			String uniqueFileName = UUID.randomUUID().toString() + "_" + attach.getOriginalFilename();
+			filePath = uploadDir + "/" + uniqueFileName;
+			Path destinationPath = Paths.get(filePath);
+			Files.copy(attach.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
 		}
 
-		Account accounts = myService.createAccount(request);
+		Account accounts = myService.createAccount(request, filePath);
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(accounts.getID())
 				.toUri();
 		return ResponseEntity.created(location).body(accounts);
+	}
 }
