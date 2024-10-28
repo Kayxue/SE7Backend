@@ -1,8 +1,5 @@
 package com.seg7.backendproject;
 
-import com.seg7.backendproject.MyService;
-import com.seg7.backendproject.AccountRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.nio.file.*;
 import java.util.UUID;
 
