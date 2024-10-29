@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.UUID;
 
-@RestController
 @RequestMapping(value = "/Account")
 public class AccountsController {
 
@@ -25,12 +24,7 @@ public class AccountsController {
 			@RequestParam(value = "attach", required = false) MultipartFile attach) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		AccountRequest request;
-		try {
-			request = objectMapper.readValue(data, AccountRequest.class);
-		} catch (IOException e) {
-			return ResponseEntity.badRequest().build();
-		}
+		AccountRequest request = objectMapper.readValue(data, AccountRequest.class);
 		String filePath = null;
 		if (attach != null && !attach.isEmpty()) {
 			String uploadDir = "upload";
@@ -38,10 +32,7 @@ public class AccountsController {
 			if (!Files.exists(uploadPath)) {
 				Files.createDirectories(uploadPath);
 			}
-			String uniqueFileName = UUID.randomUUID().toString() + "_" + attach.getOriginalFilename();
-			filePath = uploadDir + "/" + uniqueFileName;
-			Path destinationPath = Paths.get(filePath);
-			Files.copy(attach.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+			filePath = myService.saveAttach(attach, uploadDir);
 		}
 
 		Account accounts = myService.createAccount(request, filePath);
@@ -51,5 +42,29 @@ public class AccountsController {
 				.buildAndExpand(accounts.getID())
 				.toUri();
 		return ResponseEntity.created(location).body(accounts);
+	}
+
+	@DeleteMapping(value = "/{id}") // 刪除帳目
+	public ResponseEntity<Account> deleteAccount(@PathVariable("id") String id) {
+		myService.deleteAccount(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping // 取得帳目資訊
+	public ResponseEntity<ArrayList<Account>> getAccounts(@ModelAttribute QueryParameter param) {
+		ArrayList<Account> items = myService.getAccounts(param);
+		return ResponseEntity.ok(items);
+	}
+
+	@PutMapping(value = "/{id}", consumes = "multipart/form-data") // 更新帳目
+	public ResponseEntity<Account> updateProduct(
+			@PathVariable("id") String id, @RequestParam("data") String data,
+			@RequestParam(value = "attach", required = false) MultipartFile attach) throws IOException {
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		AccountRequest updatedFields = objectMapper.readValue(data, AccountRequest.class);
+		Account updatedAccount = myService.updateAccount(id, updatedFields, attach);
+
+		return ResponseEntity.ok(updatedAccount);
 	}
 }
