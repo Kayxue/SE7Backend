@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Account {
     @Id
     public String ID;
-    public String time; // 日期
+    public LocalDateTime time;
     public String category; // 類別
     public String remark; // 備註
     public String attach; // 附件
