@@ -2,6 +2,7 @@ package com.seg7.backendproject;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.QueryParameter;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 

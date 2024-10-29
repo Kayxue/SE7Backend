@@ -25,7 +25,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly("org.projectlombok:lombok:1.18.34")
-    implementation("com.aventrix.jnanoid:jnanoid:2.0.0")
 }
 
 
