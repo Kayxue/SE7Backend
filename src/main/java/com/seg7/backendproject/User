@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 public class User {
     @Id
     private String ID;
-    private String username;    //username須唯一
     private String password;
     private String email;
 }
