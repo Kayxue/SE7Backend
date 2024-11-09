@@ -1,8 +1,6 @@
 package com.seg7.backendproject;
 
-import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.QueryParameter;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 
@@ -32,6 +30,7 @@ public class MyService {
 		accounts.setTime(time);
 
 		// 加入資料庫
+		repository.insert(accounts);
 
 		return accounts;
 	}
@@ -46,6 +45,7 @@ public class MyService {
 
 	public void deleteAccount(String id) {
 		// 刪除該筆帳目
+		repository.deleteById(id);
 	}
 
 	public ArrayList<Account> getAccounts(QueryParameter param) {
@@ -56,8 +56,10 @@ public class MyService {
 
 		if (category != null && startTime != null && endTime != null) {
 			// 回傳滿足類別及時間區段條件的帳目
+			return repository.getAccountsByCategoryAndTimeBetween(category, startTime, endTime);
 		} else if (startTime != null && endTime != null) {
 			// 不限類別，回傳滿足時間區段條件的帳目
+			return repository.getAccountsByTimeAfterAndTimeBetween(startTime, endTime);
 		}
 		// 沒有篩選條件，回傳該用戶全部帳目
 		return new ArrayList<>(repository.findAll(sort));
