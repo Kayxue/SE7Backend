@@ -11,4 +11,7 @@ public interface AccountRepository extends MongoRepository<Account, String> {
 
     @Query("{ 'time': { $gt: ?1, $lt: ?2 } }")
     ArrayList<Account> getAccountsByTimeAfterAndTimeBetween(String startTime, String endTime);
+
+    @Query("{ 'ID': ?0 }")
+    Account getAccountByID(String id);
 }

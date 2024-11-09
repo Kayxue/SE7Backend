@@ -66,8 +66,7 @@ public class MyService {
 	}
 
 	public Account getAccount(String id) { // 回傳單筆帳目
-		Account accounts = new Account();
-		return accounts;
+		return repository.getAccountByID(id);
 		// 根據id回傳該筆帳目 並將這兩行刪掉
 	}
 
