@@ -1,4 +1,4 @@
-package com.seg7.backendprojec;
+package com.seg7.backendproject;
 import javax.validation.constraints.NotNull;
 
 public class LoginRequest {

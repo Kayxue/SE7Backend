@@ -1,4 +1,4 @@
-package com.seg7.backendprojec;
+package com.seg7.backendproject;
 
 import org.springframework.stereotype.Component;
 import java.util.Map;

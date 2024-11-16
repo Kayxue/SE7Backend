@@ -9,11 +9,15 @@ public class MemberService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public void createUser(RegisterRequest request) throws Exception {
         User newUser = new User();
 
-        User dbUser = null;
+        User dbUser;
         // 資料庫搜尋此email是否已註冊過
+        dbUser = userRepository.findByEmail(request.getEmail());
         if (dbUser != null) {
             throw new Exception("該郵件已被註冊");
         }
@@ -23,6 +27,7 @@ public class MemberService {
         System.out.println(newUser.getEmail());
         System.out.println(newUser.getPassword());
         // 將新用戶加入資料庫
+        userRepository.insert(newUser);
     }
 
     public User getMember(String member) { // 找出特定使用者
@@ -46,7 +51,7 @@ public class MemberService {
             updated = true;
         }
         if (updated) {
-            // 資料庫更新
+            userRepository.save(existingUser);
         }
     }
 
