@@ -2,9 +2,11 @@ package com.seg7.backendproject;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+@Document(collation = "accounts")
 @Data
 public class Account {
     @Id
