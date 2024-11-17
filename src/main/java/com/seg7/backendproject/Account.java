@@ -6,15 +6,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document(collation = "accounts")
+@Document(collection = "accounts")
 @Data
 public class Account {
     @Id
-    public String ID;
-    public LocalDateTime time;
-    public String category; // 類別
-    public String remark; // 備註
-    public String attach; // 附件
-    public int price;
-
+    private String ID;
+    private LocalDateTime time; // 日期
+    private String category; // 類別
+    private String remark; // 備註
+    private String accType; // 收入或支出
+    private String attach; // 附件
+    private int price;
 }
