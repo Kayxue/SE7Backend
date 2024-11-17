@@ -50,7 +50,6 @@ public class AccountsController {
 				.path("/{id}")
 				.buildAndExpand(accounts.getID())
 				.toUri();
-		System.out.println(repository.findAll());
 		return ResponseEntity.created(location).body(accounts);
 	}
 
@@ -63,7 +62,7 @@ public class AccountsController {
 	@GetMapping // 取得帳目資訊
 	public ResponseEntity<ArrayList<Account>> getAccounts(@ModelAttribute QueryParameter param) {
 		String userId = getUserID();
-		ArrayList<Account> items = myService.getAccounts(param);
+		ArrayList<Account> items = myService.getAccounts(param, userId);
 		return ResponseEntity.ok(items);
 	}
 
