@@ -49,7 +49,7 @@ public class MyService {
 		repository.deleteById(id);
 	}
 
-	public ArrayList<Account> getAccounts(QueryParameter param) {
+	public ArrayList<Account> getAccounts(QueryParameter param, String userID) {
 		String category = param.getCategory(); // 類別
 		String startTime = param.getStartTime(); // 起始時間
 		String endTime = param.getEndTime(); // 結束時間
