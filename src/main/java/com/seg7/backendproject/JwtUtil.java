@@ -46,6 +46,11 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
     }
 
+    public String getIDFromToken(String token, String claimKey) {
+        final Claims claims = parseToken(token);
+        return claims.get(claimKey, String.class);
+    }
+
     public Boolean validateToken(String token) {
         final Date expDate = getClaimFromToken(token, Claims::getExpiration);
         return expDate.before(new Date()) == false;
