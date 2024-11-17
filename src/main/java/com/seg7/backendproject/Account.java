@@ -16,5 +16,6 @@ public class Account {
     private String remark; // 備註
     private String accType; // 收入或支出
     private String attach; // 附件
+    private String userID; // 使用者
     private int price;
 }
