@@ -18,12 +18,13 @@ public class MyService {
 	@Autowired
 	private AccountRepository repository;
 
-	public Account createAccount(AccountRequest request, String filePath) {
+	public Account createAccount(AccountRequest request, String filePath, String userID) {
 		Account accounts = new Account();
 		accounts.setRemark(request.getRemark());
 		accounts.setCategory(request.getCategory());
 		accounts.setAttach(filePath);
 		accounts.setPrice(request.getPrice());
+		accounts.setUserID(userID);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 		LocalDateTime time = LocalDateTime.parse(request.getTime(), formatter);
