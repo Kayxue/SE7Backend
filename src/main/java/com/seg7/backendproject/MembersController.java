@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.HttpStatus;
 import io.jsonwebtoken.ExpiredJwtException;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -49,10 +50,14 @@ public class MembersController {
     public ResponseEntity<Object> login(@RequestBody LoginRequest request) {
 
         try {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    request.getEmail(), request.getPassword());
-            authenticationManager.authenticate(authentication);
-            String loginToken = jwtUtil.generateToken(new HashMap<>(), request.getEmail(), null);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String userId = ((CustomUserDetails) userDetails).getUserID();
+            Map<String, String> claims = new HashMap<>();
+            claims.put("userId", userId);
+            String loginToken = jwtUtil.generateToken(claims, request.getEmail(), null);
             return ResponseEntity.ok(Map.of(
                     "status", true,
                     "token", loginToken,
@@ -62,7 +67,7 @@ public class MembersController {
             return ResponseEntity.badRequest()
                     .body(Map.of(
                             "status", false,
-                            "message", "登入失敗"));
+                            "message", ex));
 
         }
     }
